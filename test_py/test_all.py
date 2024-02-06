@@ -19,6 +19,24 @@ def test_crop():
     y2 = extension.crop(x, 1, 1, 4, 4)
     assert torch.allclose(y1, y2)
 
+def test_center_crop():
+    x = torch.rand(3, 9, 9)
+    y1 = TF.center_crop(x, [11, 11])
+    y2 = extension.center_crop(x, (11, 11))
+    assert torch.allclose(y1, y2)
+    y1 = TF.center_crop(x, [4, 4])
+    y2 = extension.center_crop(x, (4, 4))
+    assert torch.allclose(y1, y2)
+
+def test_resized_crop():
+    x = torch.rand(3, 9, 9)
+    y1 = TF.resized_crop(x, 1, 1, 4, 4, [11, 11])
+    y2 = extension.resized_crop(x, 1, 1, 4, 4, [11, 11])
+    assert torch.allclose(y1, y2)
+    y1 = TF.resized_crop(x, 1, 1, 4, 4, [4, 4])
+    y2 = extension.resized_crop(x, 1, 1, 4, 4, (4, 4))
+    assert torch.allclose(y1, y2)
+
 def test_normalize():
     x = torch.rand(3, 300, 300)
 
