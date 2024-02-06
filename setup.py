@@ -4,7 +4,19 @@ from torch.utils import cpp_extension
 
 from glob import glob
 
-sources = glob('src/*.cpp')
+def get_files(directory):
+    cpp_files = []
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.endswith(".cpp"):
+                cpp_files.append(os.path.join(root, file))
+        for dir in dirs:
+            cpp_files.extend(get_files(os.path.join(root, dir)))
+    return cpp_files
+            
+
+sources = list(set(get_files('src')))
+print(sources)
 
 setup(
     name="extension",
