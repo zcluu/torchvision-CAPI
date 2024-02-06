@@ -10,4 +10,6 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m)
     m.def("crop", &api::crop, "Crop image");
     m.def("center_crop", &api::center_crop, "Center crop image");
     m.def("resized_crop", &api::resized_crop, "Resized crop image");
+    m.def("hflip", &api::hflip, "Horizontally flip image");
+    m.def("vflip", &api::vflip, "Vertically flip image");
 }

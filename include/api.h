@@ -15,4 +15,6 @@ namespace api
         int64_t height,
         int64_t width,
         ImageSize_t resize);
+    at::Tensor hflip(at::Tensor &img);
+    at::Tensor vflip(at::Tensor &img);
 }

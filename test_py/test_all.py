@@ -57,3 +57,12 @@ def test_normalize():
     assert torch.allclose(x1, y2)
     assert torch.allclose(x2, y1)
     assert torch.allclose(x2, y2)
+
+def test_flip():
+    x = torch.rand(3, 300, 300)
+    y1 = TF.hflip(x)
+    y2 = extension.hflip(x)
+    assert torch.allclose(y1, y2)
+    y1 = TF.vflip(x)
+    y2 = extension.vflip(x)
+    assert torch.allclose(y1, y2)
