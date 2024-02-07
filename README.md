@@ -54,7 +54,7 @@ extern "C" {
 
 fn test() {
     let img = torch::rand(3, 32, 32);
-    let img = crop(img, 1, 1, 8, 8);
+    let img = crop(img.as_ptr(), 1, 1, 8, 8);
     println!("img: {}", img);
 }
 ```
