@@ -1,11 +1,14 @@
 #include <functional.h>
 #include <torch/torch.h>
 
-at::Tensor normalize_func(at::Tensor& tensor, std::vector<float>& mean, std::vector<float>& std, bool inplace) {
+at::Tensor normalize_func(at::Tensor &tensor, std::vector<float> &mean, std::vector<float> &std, bool inplace)
+{
+    std::cout << mean.size() << std::endl;
     assert(tensor.is_floating_point());
     assert(tensor.ndimension() >= 3);
 
-    if (!inplace) {
+    if (!inplace)
+    {
         tensor = tensor.clone();
     }
 
@@ -14,12 +17,14 @@ at::Tensor normalize_func(at::Tensor& tensor, std::vector<float>& mean, std::vec
 
     assert((std_tensor == 0).any().sum().item<int>() == 0);
 
-    if (mean_tensor.ndimension() == 1) {
-        mean_tensor = mean_tensor.view({ -1, 1, 1 });
+    if (mean_tensor.ndimension() == 1)
+    {
+        mean_tensor = mean_tensor.view({-1, 1, 1});
     }
 
-    if (std_tensor.ndimension() == 1) {
-        std_tensor = std_tensor.view({ -1, 1, 1 });
+    if (std_tensor.ndimension() == 1)
+    {
+        std_tensor = std_tensor.view({-1, 1, 1});
     }
 
     return tensor.sub_(mean_tensor).div_(std_tensor);

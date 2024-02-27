@@ -2,19 +2,31 @@
 #include <typedef.h>
 #include <functional.h>
 
-namespace api
+extern "C"
 {
-    at::Tensor resize(const at::Tensor &src, ImageSize_t new_size);
-    at::Tensor normalize(at::Tensor &tensor, std::vector<float> &mean, std::vector<float> &std, bool inplace = false);
-    at::Tensor crop(at::Tensor &img, int64_t top, int64_t left, int64_t height, int64_t width);
-    at::Tensor center_crop(at::Tensor &img, ImageSize_t output_size);
-    at::Tensor resized_crop(
-        at::Tensor &img,
-        int64_t top,
-        int64_t left,
-        int64_t height,
-        int64_t width,
-        ImageSize_t resize);
-    at::Tensor hflip(at::Tensor &img);
-    at::Tensor vflip(at::Tensor &img);
+    namespace api
+    {
+        void resize(at::Tensor &src, at::Tensor &dst);
+        void normalize(at::Tensor &src, float *mean, float *std, bool inplace, at::Tensor &dst);
+        void crop(at::Tensor &img, int64_t top, int64_t left, int64_t height, int64_t width, at::Tensor &dst);
+        void center_crop(at::Tensor &img, at::Tensor &dst);
+        at::Tensor resized_crop(
+            at::Tensor &img,
+            int64_t top,
+            int64_t left,
+            int64_t height,
+            int64_t width,
+            at::Tensor &dst);
+        void hflip(at::Tensor &img, at::Tensor &dst);
+        void vflip(at::Tensor &img, at::Tensor &dst);
+        at::Tensor rgb_to_grayscale(at::Tensor &img, int num_output_channels = 1);
+
+        // Adjust Functions
+        at::Tensor adjust_brightness(at::Tensor &img, float brightness_factor);
+        at::Tensor adjust_contrast(at::Tensor &img, float contrast_factor);
+        at::Tensor adjust_saturation(at::Tensor &img, float saturation_factor);
+
+        // Other Functions
+        at::Tensor convert_image_dtype(at::Tensor &img, torch_dtype _dtype);
+    }
 }

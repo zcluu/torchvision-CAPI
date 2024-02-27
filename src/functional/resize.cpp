@@ -2,8 +2,12 @@
 
 namespace F = torch::nn::functional;
 
-at::Tensor resize_func(const at::Tensor &src, ImageSize_t resize)
+at::Tensor resize_func(at::Tensor &src, ImageSize_t resize)
 {
+    // src.print();
+    // printf("resize_func\n");
+    // printf("resize: %d, %d\n", resize.first, resize.second);
+    // printf("resize_func\n");
     assert(src.dim() == 3);
     long H = src.size(1);
     long W = src.size(2);

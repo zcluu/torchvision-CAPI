@@ -5,22 +5,23 @@ at::Tensor crop_func(at::Tensor &img, int64_t top, int64_t left, int64_t height,
     ImageSize_t image_size = get_image_size(img);
     int64_t h = image_size.first;
     int64_t w = image_size.second;
-
+    // std::cout << "crop_func: " << top << " " << left << " " << height << " " << width << std::endl;
     int64_t right = left + width;
     int64_t bottom = top + height;
-
+    // std::cout << "crop_func: right:" << right << " bottom:" << bottom << std::endl;
+    // std::cout << "crop_func: h:" << h << " w:" << w << std::endl;
     if (left < 0 || top < 0 || right > w || bottom > h)
     {
-        std::vector<int64_t> padding_ltrb = {
+        std::vector<int64_t> padding_lrtb = {
             max(-left + min(0, right), 0),
-            max(-top + min(0, bottom), 0),
             max(right - max(w, left), 0),
+            max(-top + min(0, bottom), 0),
             max(bottom - max(h, top), 0),
         };
         torch::Tensor padded_img = pad(img.index({"...",
                                                   torch::indexing::Slice(max(top, 0LL), bottom),
                                                   torch::indexing::Slice(max(left, 0LL), right)}),
-                                       padding_ltrb, "constant", 0);
+                                       padding_lrtb, "constant", 0);
 
         return padded_img;
     }
@@ -65,6 +66,6 @@ at::Tensor resized_crop_func(
     ImageSize_t resize)
 {
     img = crop_func(img, top, left, height, width);
-    img = resize_func(img, resize);
+    // img = resize_func(img, resize);
     return img;
 }
